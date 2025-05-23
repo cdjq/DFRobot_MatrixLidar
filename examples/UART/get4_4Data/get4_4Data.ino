@@ -37,7 +37,7 @@
    }
     Serial.println("begin success");
    //config matrix mode
-   while(tof.getAllDataConfig(eMatrix_4x4) != 0){
+   while(tof.setRangingMode(eMatrix_4x4) != 0){
      Serial.println("init error !!!!!");
      delay(1000);
    }
@@ -51,7 +51,7 @@
      Serial.print(i);
      Serial.print(": ");
      for(uint8_t j = 0; j < 4; j++){
-       Serial.print(buf[i*j]);
+       Serial.print(buf[i * 4 + j]);
        Serial.print(",");
      }
      Serial.println("");

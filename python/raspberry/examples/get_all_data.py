@@ -30,7 +30,7 @@ def setup():
   while tof.begin() != 0:
     print("begin error!!!!")
     time.sleep(1)
-  while tof.get_all_data_config(8) != 0:
+  while tof.set_Ranging_Mode(8) != 0:
     print("init error")
     time.sleep(1)
     

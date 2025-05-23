@@ -76,9 +76,9 @@ class DFRobot_matrixLidar:
 		"""
 		return 0
   
-	def get_all_data_config(self, matrix):
+	def set_Ranging_Mode(self, matrix):
 		"""
-			@fn get_all_data_config
+			@fn set_Ranging_Mode
 			@brief Retrieve the configuration for all data
 			@param matrix Configure the sensor sampling matrix
 			@return Returns the configuration status

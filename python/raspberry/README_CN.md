@@ -35,9 +35,9 @@
 			@return 返回初始化状态
 		'''
   
-	def get_all_data_config(self, matrix)
+	def set_Ranging_Mode(self, matrix)
 		'''!
-			@fn get_all_data_config
+			@fn set_Ranging_Mode
 			@brief 获取全部数据的配置
 			@param matrix 配置传感器采样矩阵
 			@return 返回配置状态

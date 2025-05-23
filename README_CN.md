@@ -36,14 +36,14 @@
     uint8_t begin(void);
 
     /**
-     * @fn getAllDataConfig
+     * @fn setRangingMode
      * @brief 获取全部数据的配置
      * @param matrix 配置传感器采样矩阵
      * @return 返回配置状态
      * @retval 0 成功
      * @retval 1 失败
      */
-     uint8_t getAllDataConfig(eMatrix_t matrix);
+     uint8_t setRangingMode(eMatrix_t matrix);
 
     /**
      * @fn getAllData

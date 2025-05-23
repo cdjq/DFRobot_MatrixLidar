@@ -36,14 +36,14 @@ To use this library, download the library file first, paste it into the \Arduino
     uint8_t begin(void);
 
      /**
-     * @fn getAllDataConfig
+     * @fn setRangingMode
      * @brief Configures the retrieval of all data
      * @param matrix Configuration matrix for sensor sampling
      * @return Returns the configuration status
      * @retval 0 Success
      * @retval 1 Failure
      */
-    uint8_t getAllDataConfig(eMatrix_t matrix);
+    uint8_t setRangingMode(eMatrix_t matrix);
 
 
     /**

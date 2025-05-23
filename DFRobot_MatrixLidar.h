@@ -46,14 +46,14 @@ public:
   uint8_t begin(void);
 
   /**
-   * @fn getAllDataConfig
+   * @fn setRangingMode
    * @brief Configures the retrieval of all data
    * @param matrix Configuration matrix for sensor sampling
    * @return Returns the configuration status
    * @retval 0 Success
    * @retval 1 Failure
    */
-  uint8_t getAllDataConfig(eMatrix_t matrix);
+  uint8_t setRangingMode(eMatrix_t matrix);
 
 
   /**
@@ -84,6 +84,7 @@ protected:
    * @n      Non-NULL  response packet pointer
    */
   void* recvPacket(uint8_t cmd, uint8_t *errorCode);
+
   /**
    * @fn init
    * @brief Pure virtual function, interface init
@@ -95,6 +96,7 @@ protected:
    * @n      -2    Device does not exist
    */
   virtual int init(void) = 0;
+
   /**
    * @fn sendPacket
    * @brief I2C interface init
@@ -106,6 +108,7 @@ protected:
    * @n     false  Not stop
    */
   virtual void sendPacket(void *pkt, int length, bool stop) = 0;
+  
   /**
    * @fn recvData
    * @brief I2C interface init
@@ -124,7 +127,7 @@ private:
 class DFRobot_MatrixLidar_I2C:public DFRobot_MatrixLidar{
 public:
 
-  DFRobot_MatrixLidar_I2C(uint8_t addr = 0x30, TwoWire *pWire = &Wire);
+  DFRobot_MatrixLidar_I2C(uint8_t addr = 0x33, TwoWire *pWire = &Wire);
   ~DFRobot_MatrixLidar_I2C();
 private:
   TwoWire *_pWire;

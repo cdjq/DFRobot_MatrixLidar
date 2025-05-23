@@ -35,9 +35,9 @@ Before using this library, first download the library files, paste them into the
             @return Returns the initialization status
         '''
   
-    def get_all_data_config(self, matrix)
+    def set_Ranging_Mode(self, matrix)
         '''!
-            @fn get_all_data_config
+            @fn set_Ranging_Mode
             @brief Configure the retrieval of all data
             @param matrix Configuration matrix for sensor sampling
             @return Returns the configuration status

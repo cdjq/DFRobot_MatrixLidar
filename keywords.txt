@@ -13,7 +13,7 @@ DFRobot_MatrixLidar_UART	KEYWORD1
 # Methods and Functions  (KEYWORD2)
 #######################################
 begin	KEYWORD2
-getAllDataConfig	KEYWORD2
+setRangingMode	KEYWORD2
 getAllData	KEYWORD2
 getFixedPointData	KEYWORD2
 #######################################

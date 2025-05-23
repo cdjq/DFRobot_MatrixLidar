@@ -21,7 +21,7 @@ void setup(void){
   }
   Serial.println("begin success");
   //config matrix mode
-  while(tof.getAllDataConfig(eMatrix_8X8) != 0){
+  while(tof.setRangingMode(eMatrix_8X8) != 0){
     Serial.println("init error !!!!!");
     delay(1000);
   }
@@ -35,7 +35,7 @@ void loop(void){
     Serial.print(i);
     Serial.print(": ");
     for(uint8_t j = 0; j < 8; j++){
-      Serial.print(buf[i*j]);
+      Serial.print(buf[i * 8 + j]);
       Serial.print(",");
     }
     Serial.println("");

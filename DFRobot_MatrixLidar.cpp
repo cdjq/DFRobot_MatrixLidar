@@ -69,7 +69,7 @@ uint8_t DFRobot_MatrixLidar::begin(void){
   return init();
 }
 
-uint8_t DFRobot_MatrixLidar::getAllDataConfig(eMatrix_t matrix){
+uint8_t DFRobot_MatrixLidar::setRangingMode(eMatrix_t matrix){
   uint8_t length = 4;
   uint8_t errorCode;
   pCmdSendPkt_t sendpkt = NULL;
@@ -315,10 +315,10 @@ int DFRobot_MatrixLidar_UART::recvData(void *data, int len)
 
     uint8_t *pBuf = (uint8_t *)data;
     int total = 0;
-    uint32_t startTime = millis();  // 获取起始时间
+    uint32_t startTime = millis();  
 
     while (len > 0) {
-        // 计算超时时间
+        
         if (millis() - startTime > 500) {
             DBG("UART read timeout");
             break;
@@ -327,12 +327,12 @@ int DFRobot_MatrixLidar_UART::recvData(void *data, int len)
         int chunkSize = (len > I2C_ACHE_MAX_LEN) ? I2C_ACHE_MAX_LEN : len;
         int bytesRead = _s->readBytes(pBuf, chunkSize);
 
-        if (bytesRead > 0) {  // 读取成功
+        if (bytesRead > 0) {  
             pBuf += bytesRead;
             len -= bytesRead;
             total += bytesRead;
-        } else {  // 读取失败，避免过快循环导致 CPU 占用过高
-            delay(1);  // 等待 1ms，防止忙等待
+        } else {  
+            delay(1);  
         }
     }
 
