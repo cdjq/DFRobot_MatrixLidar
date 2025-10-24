@@ -120,7 +120,26 @@ uint8_t DFRobot_MatrixLidar::getAllData(void *buf){
   if((rcvpkt != NULL) && (rcvpkt->status == STATUS_SUCCESS)){
     length = (rcvpkt->lenH << 8) | rcvpkt->lenL;
     DBG(length);
-    memcpy(buf,rcvpkt->buf,length);
+    DBG(rcvpkt->buf[0]);
+    
+    // 检查数据长度是否合理
+    // 4x4矩阵需要32字节（16个16位数据），8x8矩阵需要128字节（64个16位数据）
+    if(length >= 32){
+      // 根据实际长度复制数据
+      int copyLen = (length >= 128) ? 128 : length;  // 最多复制128字节
+      memcpy(buf, rcvpkt->buf, copyLen);
+      
+      DBG("Data length:");
+      DBG(length);
+      DBG("Copy length:");
+      DBG(copyLen);
+    } else {
+      DBG("Invalid data length");
+      DBG(length);
+      if(rcvpkt) free(rcvpkt);
+      return 1;
+    }
+    
     if(rcvpkt) free(rcvpkt);
     return 0;
   }
@@ -157,7 +176,6 @@ uint16_t DFRobot_MatrixLidar::getFixedPointData(uint8_t x, uint8_t y){
   return 1;
 }
 
-
 void DFRobot_MatrixLidar_I2C::sendPacket(void *pkt, int length, bool stop){
   uint8_t *pBuf = (uint8_t *)pkt;
   int remain = length;
@@ -177,7 +195,6 @@ void DFRobot_MatrixLidar_I2C::sendPacket(void *pkt, int length, bool stop){
   }
   _pWire->endTransmission();
 }
-
 
 void* DFRobot_MatrixLidar::recvPacket(uint8_t cmd, uint8_t *errorCode){
   if(cmd > CMD_END){
@@ -242,31 +259,34 @@ void* DFRobot_MatrixLidar::recvPacket(uint8_t cmd, uint8_t *errorCode){
 
 int DFRobot_MatrixLidar_I2C::recvData(void *data, int len){
   uint8_t *pBuf = (uint8_t *)data;
-  int remain = len;
   int total = 0;
   if(pBuf == NULL){
     DBG("pBuf ERROR!! : null pointer");
     return 0;
   }
-  while(remain){
-    len = remain > I2C_ACHE_MAX_LEN ? I2C_ACHE_MAX_LEN : remain;
-    remain -= len;
-#if defined(ESP32)
-    if(remain) {_pWire->requestFrom(_addr, len, true);}
-#else
-    if(remain){ _pWire->requestFrom(_addr, len, false);}
-#endif
-  else{_pWire->requestFrom(_addr, len, true);}
-    for(int i = 0; i < len; i++){
-      pBuf[i] = _pWire->read();
+  
+  // 简化的读取策略：统一使用逐个字节读取
+  for(int i = 0; i < len; i++){
+    _pWire->beginTransmission(_addr);
+    _pWire->endTransmission();
+    
+    _pWire->requestFrom(_addr, 1);
+    
+    uint32_t timeout = millis() + 10;
+    while(_pWire->available() < 1 && millis() < timeout){
       yield();
     }
-    pBuf += len;
-    total += len;
+    
+    if(_pWire->available() >= 1){
+      pBuf[i] = _pWire->read();
+    } else {
+      pBuf[i] = 0;  // 读取失败时填充0
+    }
+    
+    total++;
   }
   return total;
 }
-
 
 
 DFRobot_MatrixLidar_I2C::DFRobot_MatrixLidar_I2C(uint8_t addr, TwoWire *pWire)
@@ -304,7 +324,6 @@ void DFRobot_MatrixLidar_UART::sendPacket(void *pkt, int length, bool stop){
   }
    
 }
-
 
 int DFRobot_MatrixLidar_UART::recvData(void *data, int len)
 {

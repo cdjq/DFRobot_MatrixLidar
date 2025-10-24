@@ -24,7 +24,7 @@
  * @brief matrix selection
  */
 typedef enum{
-  eMatrix_4x4  = 4,
+  eMatrix_4X4  = 4,
   eMatrix_8X8  = 8, 
 }eMatrix_t;
 
@@ -54,7 +54,6 @@ public:
    * @retval 1 Failure
    */
   uint8_t setRangingMode(eMatrix_t matrix);
-
 
   /**
    * @fn getAllData
